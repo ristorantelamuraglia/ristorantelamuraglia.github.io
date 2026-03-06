@@ -20,16 +20,7 @@
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            background: var(--black);
-            color: var(--white);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 10px; }
+        body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
 
         /* HEADER */
         header {
@@ -59,8 +50,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('a7e64378-e99b-4f85-b17a-1394a5993b2a.JPG');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('a7e64378-e99b-4f85-b17a-1394a5993b2a.JPG');
             background-size: cover;
             background-position: center;
         }
@@ -86,16 +76,9 @@
         .section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 4vw, 50px); text-align: center; margin-bottom: 60px; }
 
         /* MENU */
-        .menu-card {
-            background: var(--anthracite);
-            padding: 60px;
-            border: 1px solid rgba(211, 47, 47, 0.2);
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .menu-card { background: var(--anthracite); padding: 60px; border: 1px solid rgba(211, 47, 47, 0.2); text-align: center; max-width: 800px; margin: 0 auto; }
 
-        /* DELIVERY & PROMO */
+        /* DELIVERY */
         .delivery-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
         .promo-card { background: var(--anthracite); padding: 40px; border: 1px dashed var(--red); border-radius: 8px; text-align: center; }
         .promo-card h3 { color: var(--red); margin-bottom: 20px; font-family: 'Playfair Display', serif; }
@@ -107,9 +90,8 @@
         .zone-box { background: var(--glass); padding: 25px; border-left: 5px solid transparent; }
         .zone-verde { border-color: var(--green); }
         .zone-rossa { border-color: var(--red); }
-        .zone-box h4 { margin-bottom: 5px; font-size: 18px; }
 
-        /* MAP */
+        /* MAPPA GOOGLE - NO LEAFLET */
         .map-container { 
             height: 450px; 
             width: 100%; 
@@ -118,11 +100,11 @@
             border-radius: 4px;
             overflow: hidden;
         }
-        iframe { 
+        .map-container iframe { 
             width: 100%; 
             height: 100%; 
             border: 0; 
-            filter: grayscale(1) invert(0.9) contrast(1.2);
+            filter: grayscale(1) invert(0.9) contrast(1.2); /* Dark Mode */
         }
 
         /* CONTACTS */
@@ -132,7 +114,6 @@
 
         footer { padding: 40px 10%; background: #050505; text-align: center; font-size: 12px; color: var(--white-dim); border-top: 1px solid rgba(255,255,255,0.05); }
 
-        /* ANIMATIONS */
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -182,7 +163,6 @@
                     <li>Sopra <strong>€60</strong>: 1 Coca-Cola Grande</li>
                 </ul>
             </div>
-
             <div class="zones-container">
                 <div class="zone-box zone-verde">
                     <h4>Zona Verde (€3.00)</h4>
@@ -206,7 +186,10 @@
             <div class="contact-block"><h3>Contatti</h3><p>Tel: 0331 795 159<br>WhatsApp: 333 379 3527</p></div>
         </div>
         <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2786.062828551403!2d8.801314612444636!3d45.65792271563606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786899539369f6f%3A0xed2e9fdf937f4497!2sVia%20Andrea%20Doria%2C%203%2C%2021013%20Gallarate%20VA!5e0!3m2!1sit!2sit!4v1709750000000!5m2!1sit!2sit" loading="lazy"></iframe>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2790.344405322889!2d8.801311176880468!3d45.65801932077755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786899539369f6f%3A0xed2e9fdf937f4497!2sVia%20Andrea%20Doria%2C%203%2C%2021013%20Gallarate%20VA!5e0!3m2!1sit!2sit!4v1709200000000!5m2!1sit!2sit" 
+                allowfullscreen="" loading="lazy">
+            </iframe>
         </div>
     </div>
 </section>
@@ -222,5 +205,7 @@
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
+</body>
+</html>
 </body>
 </html>
