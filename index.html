@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Muraglia – Cucina Tipica Cinese</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:wght@300;400;600&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <style>
         :root {
             --black: #0a0a0a;
@@ -29,7 +28,6 @@
             line-height: 1.6;
         }
 
-        /* SCROLLBAR */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 10px; }
 
@@ -47,8 +45,7 @@
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); }
+        .logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); text-decoration: none; }
         .logo-text span { display: block; font-family: 'Noto Serif SC', serif; font-size: 10px; color: var(--red); letter-spacing: 4px; text-transform: uppercase; }
 
         nav { display: flex; gap: 30px; }
@@ -61,7 +58,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
             text-align: center;
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                         url('a7e64378-e99b-4f85-b17a-1394a5993b2a.JPG');
@@ -71,7 +67,7 @@
         .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(50px, 8vw, 100px); font-weight: 900; }
         .hero-subtitle { font-size: clamp(16px, 2vw, 22px); letter-spacing: 4px; text-transform: uppercase; color: var(--white-dim); margin-bottom: 40px; }
 
-        /* BUTTONS - Uniformati */
+        /* BUTTONS */
         .btn-primary {
             padding: 18px 40px;
             background: var(--red);
@@ -82,8 +78,6 @@
             transition: 0.3s;
             display: inline-block;
             border-radius: 2px;
-            border: none;
-            cursor: pointer;
         }
         .btn-primary:hover { background: var(--red-bright); transform: translateY(-3px); box-shadow: 0 10px 20px var(--red-glow); }
 
@@ -91,7 +85,7 @@
         section { padding: 100px 10%; }
         .section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 4vw, 50px); text-align: center; margin-bottom: 60px; }
 
-        /* MENU SECTION */
+        /* MENU */
         .menu-card {
             background: var(--anthracite);
             padding: 60px;
@@ -104,32 +98,42 @@
         /* DELIVERY & PROMO */
         .delivery-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
         .promo-card { background: var(--anthracite); padding: 40px; border: 1px dashed var(--red); border-radius: 8px; text-align: center; }
-        .promo-card h3 { color: var(--red); margin-bottom: 20px; font-family: 'Playfair Display', serif; font-size: 24px; }
+        .promo-card h3 { color: var(--red); margin-bottom: 20px; font-family: 'Playfair Display', serif; }
         .promo-list { list-style: none; }
-        .promo-list li { margin: 15px 0; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 18px; }
+        .promo-list li { margin: 15px 0; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .promo-list strong { color: var(--red-bright); }
 
         .zones-container { display: flex; flex-direction: column; gap: 20px; }
         .zone-box { background: var(--glass); padding: 25px; border-left: 5px solid transparent; }
         .zone-verde { border-color: var(--green); }
         .zone-rossa { border-color: var(--red); }
-        .zone-box h4 { margin-bottom: 5px; font-size: 18px; color: var(--white); }
-        .zone-box p { color: var(--white-dim); font-size: 14px; }
-
-        /* CONTACTS */
-        .contacts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .contact-block { background: var(--anthracite); padding: 40px; border-radius: 4px; }
-        .contact-block h3 { color: var(--red); font-family: 'Playfair Display', serif; margin-bottom: 15px; }
+        .zone-box h4 { margin-bottom: 5px; font-size: 18px; }
 
         /* MAP */
-        .map-container { height: 400px; width: 100%; border: 1px solid var(--red); margin-top: 40px; }
-        #map { height: 100%; width: 100%; }
+        .map-container { 
+            height: 450px; 
+            width: 100%; 
+            border: 1px solid var(--red); 
+            margin-top: 40px; 
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: 0; 
+            filter: grayscale(1) invert(0.9) contrast(1.2);
+        }
 
-        /* FOOTER */
+        /* CONTACTS */
+        .contacts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .contact-block { background: var(--anthracite); padding: 40px; }
+        .contact-block h3 { color: var(--red); font-family: 'Playfair Display', serif; margin-bottom: 15px; }
+
         footer { padding: 40px 10%; background: #050505; text-align: center; font-size: 12px; color: var(--white-dim); border-top: 1px solid rgba(255,255,255,0.05); }
 
         /* ANIMATIONS */
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s all ease; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 992px) { .delivery-container { grid-template-columns: 1fr; } }
@@ -139,9 +143,7 @@
 <body>
 
 <header>
-    <a href="#home" class="logo">
-        <div class="logo-text">La Muraglia<span>长城 · Ristorante</span></div>
-    </a>
+    <a href="#home" class="logo-text">La Muraglia<span>长城 · Ristorante</span></a>
     <nav>
         <a href="#home">Home</a>
         <a href="#menu">Menu</a>
@@ -175,23 +177,21 @@
             <div class="promo-card">
                 <h3>🎁 OMAGGI SULLA SPESA</h3>
                 <ul class="promo-list">
-                    <li>Spesa sopra <strong>€30</strong>: <br>1 Lattina di Coca-Cola</li>
-                    <li>Spesa sopra <strong>€50</strong>: <br>1 Birra o 1 Dolce</li>
-                    <li>Spesa sopra <strong>€60</strong>: <br>1 Coca-Cola Grande</li>
+                    <li>Sopra <strong>€30</strong>: 1 Coca-Cola</li>
+                    <li>Sopra <strong>€50</strong>: 1 Birra o 1 Dolce</li>
+                    <li>Sopra <strong>€60</strong>: 1 Coca-Cola Grande</li>
                 </ul>
-                <p style="font-size: 11px; margin-top: 20px; color: var(--red-bright);">* Valido solo per ordini diretti (Tel/WhatsApp)</p>
             </div>
 
             <div class="zones-container">
                 <div class="zone-box zone-verde">
-                    <h4>Zona Verde (Supplemento €3.00)</h4>
+                    <h4>Zona Verde (€3.00)</h4>
                     <p>Gallarate, Cassano Magnago, Cardano al Campo, Samarate.</p>
                 </div>
                 <div class="zone-box zone-rossa">
-                    <h4>Zona Rossa (Supplemento €5.00)</h4>
+                    <h4>Zona Rossa (€5.00)</h4>
                     <p>Busto Arsizio, Casorate Sempione, Cavaria, Jerago.</p>
                 </div>
-                <p style="font-size: 13px; font-style: italic; color: var(--white-dim);">Oltre i 5km di distanza: Si effettua solo ritiro in sede o tramite App (Deliveroo/Just Eat).</p>
             </div>
         </div>
     </div>
@@ -201,45 +201,21 @@
     <div class="reveal">
         <h2 class="section-title">Dove Trovarci</h2>
         <div class="contacts-grid">
-            <div class="contact-block">
-                <h3>Indirizzo</h3>
-                <p>Via A. Doria, 3<br>21013 Gallarate (VA)</p>
-            </div>
-            <div class="contact-block">
-                <h3>Orari</h3>
-                <p>Lun - Dom: 12:00 - 14:30 / 18:00 - 23:00<br><strong>Chiuso il Martedì</strong></p>
-            </div>
-            <div class="contact-block">
-                <h3>Contatti</h3>
-                <p>Tel: 0331 795 159<br>WhatsApp: 333 379 3527</p>
-            </div>
+            <div class="contact-block"><h3>Indirizzo</h3><p>Via A. Doria, 3<br>21013 Gallarate (VA)</p></div>
+            <div class="contact-block"><h3>Orari</h3><p>Lun - Dom: 12:00-14:30 / 18:00-23:00<br><strong>Chiuso il Martedì</strong></p></div>
+            <div class="contact-block"><h3>Contatti</h3><p>Tel: 0331 795 159<br>WhatsApp: 333 379 3527</p></div>
         </div>
         <div class="map-container">
-            <div id="map"></div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2786.062828551403!2d8.801314612444636!3d45.65792271563606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786899539369f6f%3A0xed2e9fdf937f4497!2sVia%20Andrea%20Doria%2C%203%2C%2021013%20Gallarate%20VA!5e0!3m2!1sit!2sit!4v1709750000000!5m2!1sit!2sit" loading="lazy"></iframe>
         </div>
     </div>
 </section>
 
 <footer>
-    <p>© 2026 Ristorante La Muraglia - Gallarate. <br> Per ordini tramite WhatsApp e telefono il pagamento è accettato solo in contanti.</p>
+    <p>© 2026 Ristorante La Muraglia. Per ordini diretti accettiamo solo contanti.</p>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // Inizializzazione Mappa
-    const map = L.map('map', { center: [45.6608, 8.7907], zoom: 16, scrollWheelZoom: false });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-
-    // Icona personalizzata per la mappa
-    const customIcon = L.divIcon({
-        html: `<div style="background: var(--red); width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 15px var(--red-glow);">🏯</div>`,
-        className: '', iconSize: [40, 40], iconAnchor: [20, 40]
-    });
-
-    L.marker([45.6608, 8.7907], {icon: customIcon}).addTo(map)
-        .bindPopup('<b>La Muraglia</b><br>Via A. Doria, 3').openPopup();
-
-    // Animazione Scroll Reveal
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1 });
