@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Muraglia – Cucina Tipica Cinese</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:wght@300;400;600&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --anthracite: #141414;
+            --red: #d32f2f;
+            --red-bright: #ff5252;
+            --red-glow: rgba(211, 47, 47, 0.3);
+            --white: #ffffff;
+            --white-dim: rgba(255, 255, 255, 0.7);
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 10px; }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            height: 80px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+        .logo-text span {
+            display: block;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 10px;
+            color: var(--red);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        nav { display: flex; gap: 30px; }
+        nav a {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--white-dim);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        nav a:hover { color: var(--red-bright); }
+
+        /* HERO */
+        #home {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://lh3.googleusercontent.com/gps-cs-s/AHVAwepWiwzN1NoQtDk1BzHbiEkw4HNiAuMqYH41x2cnXS7DuYM8IHDiTEcC2XgrOUp6SFV69xkGCp9lXz3F6ZLtGdol5EUBJWrQIlSWoCLuF7rks454FEXl1U6keiRf5fEGwEk0m8oRAA=s680-w680-h510-rw');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(50px, 8vw, 100px);
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2vw, 22px);
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--white-dim);
+            margin-bottom: 40px;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            padding: 18px 40px;
+            background: var(--red);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .btn-primary:hover { background: var(--red-bright); transform: translateY(-3px); box-shadow: 0 10px 20px var(--red-glow); }
+
+        /* SECTIONS */
+        section { padding: 120px 10%; }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(30px, 4vw, 50px);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* MENU CARD */
+        .menu-card {
+            background: var(--anthracite);
+            padding: 60px;
+            border: 1px solid rgba(211, 47, 47, 0.2);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* DELIVERY GRID */
+        .delivery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .delivery-card {
+            background: var(--glass);
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            transition: 0.3s;
+        }
+        .delivery-card:hover { border-color: var(--red); background: rgba(211, 47, 47, 0.05); }
+
+        /* CONTACTS */
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .contact-block { background: var(--anthracite); padding: 40px; }
+        .contact-block h3 { font-family: 'Playfair Display', serif; color: var(--red); margin-bottom: 20px; }
+
+        /* MAP */
+        .map-container { height: 400px; width: 100%; border: 1px solid var(--red); }
+        #map { height: 100%; width: 100%; }
+
+        /* FOOTER */
+        footer {
+            padding: 40px 10%;
+            background: #050505;
+            text-align: center;
+            font-size: 12px;
+            color: var(--white-dim);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* ANIMATIONS */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s all ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            header { justify-content: center; }
+            section { padding: 80px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#home" class="logo">
+        <div class="logo-text">
+            La Muraglia
+            <span>长城 · Ristorante</span>
+        </div>
+    </a>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#delivery">Delivery</a>
+        <a href="#contatti">Contatti</a>
+    </nav>
+</header>
+
+<section id="home">
+    <div class="hero-content">
+        <h1 class="hero-title">LA MURAGLIA</h1>
+        <p class="hero-subtitle">Autentica Eccellenza Cinese</p>
+        <a href="#menu" class="btn-primary">VEDI IL MENU</a>
+    </div>
+</section>
+
+<section id="menu">
+    <div class="reveal">
+        <h2 class="section-title">I Nostri Sapori</h2>
+        <div class="menu-card">
+            <p style="margin-bottom: 30px; font-style: italic; color: var(--white-dim);">
+                "Dalla tradizione millenaria alla tua tavola."
+            </p>
+            <a href="IL_TUO_FILE.pdf" target="_blank" class="btn-primary">SCARICA IL MENU (PDF)</a>
+        </div>
+    </div>
+</section>
+
+<section id="delivery" style="background-color: var(--anthracite);">
+    <div class="reveal">
+        <h2 class="section-title">Gusto a Domicilio</h2>
+        <div class="delivery-grid">
+            <div class="delivery-card">
+                <h3>Take Away</h3>
+                <p>Ordina e ritira in sede.</p>
+            </div>
+            <div class="delivery-card">
+                <h3>Delivery Diretto</h3>
+                <p>Chiamaci per una consegna rapida a Gallarate.</p>
+                <p style="color: var(--red); font-weight: bold; margin-top: 10px;">+39 0331 795 159</p>
+            </div>
+            <div class="delivery-card">
+                <h3>App</h3>
+                <p>Trovaci su Deliveroo e Just Eat.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contatti">
+    <div class="reveal">
+        <h2 class="section-title">Dove Trovarci</h2>
+        <div class="contacts-grid">
+            <div class="contact-block">
+                <h3>Indirizzo</h3>
+                <p>Via A. Doria, 3<br>21013 Gallarate (VA)</p>
+            </div>
+            <div class="contact-block">
+                <h3>Orari</h3>
+                <p>Lun - Dom: 11:00 - 14:30<br>Lun - Dom: 18:00 - 22:30<br><strong>Chiuso il Martedì</strong></p>
+            </div>
+            <div class="contact-block">
+                <h3>Contatti</h3>
+                <p>Tel: 0331 795 159<br>WhatsApp: 333 379 3527</p>
+                <p style="font-size: 10px; margin-top: 10px; color: var(--red);">* Ordini diretti: solo contanti</p>
+            </div>
+        </div>
+        <div class="map-container reveal">
+            <div id="map"></div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Ristorante La Muraglia - Gallarate. Tutti i diritti riservati.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Inizializzazione Mappa
+    const map = L.map('map', {
+        center: [45.6608, 8.7907],
+        zoom: 16,
+        scrollWheelZoom: false
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+    L.marker([45.6608, 8.7907]).addTo(map)
+        .bindPopup('<b>La Muraglia</b><br>Via A. Doria, 3').openPopup();
+
+    // Animazione comparsa al caricamento
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
