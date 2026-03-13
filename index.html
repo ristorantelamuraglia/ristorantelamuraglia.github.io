@@ -23,7 +23,6 @@
         html { scroll-behavior: smooth; }
         body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
 
-        /* HEADER */
         header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -44,7 +43,6 @@
         nav a { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--white-dim); text-decoration: none; transition: 0.3s; }
         nav a:hover { color: var(--red-bright); }
 
-        /* HERO */
         #home {
             height: 100vh;
             display: flex;
@@ -58,10 +56,8 @@
         .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(50px, 8vw, 100px); font-weight: 900; }
         .hero-subtitle { font-size: clamp(14px, 2vw, 20px); letter-spacing: 4px; text-transform: uppercase; color: var(--white-dim); margin-bottom: 40px; }
 
-        /* CHI SIAMO */
         .about-text { max-width: 800px; margin: 0 auto; text-align: center; font-size: 18px; line-height: 1.8; color: var(--white-dim); }
 
-        /* BUTTONS */
         .btn-primary {
             padding: 18px 40px;
             background: var(--red);
@@ -75,24 +71,23 @@
         }
         .btn-primary:hover { background: var(--red-bright); transform: translateY(-3px); box-shadow: 0 10px 20px var(--red-glow); }
 
-        /* SECTIONS */
         section { padding: 100px 10%; }
         .section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 4vw, 50px); text-align: center; margin-bottom: 60px; }
 
-        /* CONTACTS */
         .contact-block a { color: var(--white) !important; text-decoration: none; }
 
-        /* DELIVERY */
         .delivery-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
         .promo-card { background: var(--anthracite); padding: 40px; border: 1px dashed var(--red); border-radius: 8px; text-align: center; }
         .promo-list { list-style: none; }
         .promo-list li { margin: 15px 0; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .promo-list strong { color: var(--red-bright); }
+        
         .zone-box { background: var(--glass); padding: 25px; border-left: 5px solid transparent; margin-bottom: 20px; }
         .zone-verde { border-color: var(--green); }
         .zone-rossa { border-color: var(--red); }
+        .min-order { color: var(--red-bright); font-weight: 600; margin-top: 10px; display: block; font-size: 14px; }
+        .info-delivery { text-align: center; margin-top: 20px; font-size: 14px; color: var(--white-dim); font-style: italic; }
 
-        /* MAP */
         .map-container { height: 450px; width: 100%; border: 1px solid var(--red); margin-top: 40px; border-radius: 4px; overflow: hidden; }
         #map { height: 100%; width: 100%; }
 
@@ -119,7 +114,7 @@
 </header>
 
 <section id="home">
-    <div class="reveal">
+    <div class="hero-content">
         <h1 class="hero-title">LA MURAGLIA</h1>
         <p class="hero-subtitle">Autentica Eccellenza Cinese</p>
         <a href="https://wa.me/393333793527" target="_blank" class="btn-primary">PRENOTA UN TAVOLO</a>
@@ -140,7 +135,7 @@
         <h2 class="section-title">Il Nostro Menu</h2>
         <div style="background: var(--anthracite); padding: 60px; border: 1px solid rgba(211,47,47,0.2); text-align: center; max-width: 800px; margin: 0 auto;">
             <p style="margin-bottom: 30px; font-style: italic; color: var(--white-dim);">"Dalla tradizione millenaria alla tua tavola."</p>
-            <a href="https://drive.google.com/file/d/18UFWRQgpvzu731NJdc9VedwDmkszrNgL/view?usp=sharing" target="_blank" class="btn-primary">SCARICA IL MENU (PDF)</a>
+            <a href="https://drive.google.com/file/d/18UFWRQgpvzu731NJdc9VedwDmkszrNgL/view?usp=drive_link" target="_blank" class="btn-primary">SCARICA IL MENU (PDF)</a>
         </div>
     </div>
 </section>
@@ -161,11 +156,14 @@
                 <div class="zone-box zone-verde">
                     <h4>Consegna 3€</h4>
                     <p>Gallarate, Cassano Magnago, Cardano al Campo, Samarate.</p>
+                    <span class="min-order">Ordine min. 20€</span>
                 </div>
                 <div class="zone-box zone-rossa">
                     <h4>Consegna 5€</h4>
                     <p>Busto Arsizio, Casorate Sempione, Cavaria, Jerago.</p>
+                    <span class="min-order">Ordine min. 35€</span>
                 </div>
+                <p class="info-delivery">Se la città in cui abiti non è elencata, chiamaci per maggiori informazioni.</p>
             </div>
         </div>
     </div>
@@ -195,19 +193,16 @@
     const lat = 45.65792, lng = 8.80350;
     const map = L.map('map', { center: [lat, lng], zoom: 17, scrollWheelZoom: false });
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-
     const pagodaIcon = L.divIcon({
         html: `<div style="background: #d32f2f; width: 45px; height: 45px; border-radius: 50%; border: 3px solid white; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 0 15px rgba(211, 47, 47, 0.6);">🏯</div>`,
         className: '', iconSize: [45, 45], iconAnchor: [22, 45]
     });
-
     L.marker([lat, lng], {icon: pagodaIcon}).addTo(map).bindPopup('<b>La Muraglia</b><br>Via A. Doria, 3').openPopup();
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
-
 </body>
+</html>
 </html>
